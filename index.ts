@@ -6,7 +6,6 @@ import {verifyScore, VERSION, specFromURL, specToURL } from './public/logic.js'
 import postgres from 'postgres'
 const sql = (process.env.DATABASE_URL == undefined) ? null : postgres(process.env.DATABASE_URL)
 
-//TODO: get rid of these any's
 //TODO: this is probably horribly insecure
 
 function randomString(): string {
@@ -114,11 +113,11 @@ async function submitForDaily(username:string, url:string, score:number): Promis
         `
       }
     }
-} 
+}
 
 type RecentEntry = {version:string, age:string, score:number, username:string, url:string}
 
-async function serveMain(req:any, res:any) {
+async function serveMain(req:express.Request, res:express.Response) {
     try {
           res.render('pages/main', {url:undefined, tutorial:false})
       } catch(err) {
@@ -128,9 +127,9 @@ async function serveMain(req:any, res:any) {
 }
 
 
-function dailyTypeFromReq(req:any): DailyType {
-  let typeString:string|undefined = req.query.type
-  let type:DailyType|undefined = undefined;
+function dailyTypeFromReq(req:express.Request): DailyType {
+  let typeString = req.query.type as string|undefined
+  let type = undefined as DailyType|undefined;
   for (const dailyType of dailyTypes) {
     if (typeString == dailyType) type = dailyType
   }
@@ -139,7 +138,7 @@ function dailyTypeFromReq(req:any): DailyType {
   return type
 }
 
-async function serveDailyByType(type:DailyType, res:any) {
+async function serveDailyByType(type:DailyType, res:express.Response) {
     try {
         const url = await dailyURL(type)
         res.render('pages/main', {url:url, tutorial:false})
@@ -149,11 +148,11 @@ async function serveDailyByType(type:DailyType, res:any) {
     }
 }
 
-async function serveWeekly(req:any, res:any) {
+async function serveWeekly(req:express.Request, res:express.Response) {
   await serveDailyByType('weekly', res)
 }
 
-async function serveDaily(req:any, res:any) {
+async function serveDaily(req:express.Request, res:express.Response) {
     try {
         const type:DailyType = dailyTypeFromReq(req)
         await serveDailyByType(type, res)
@@ -163,7 +162,7 @@ async function serveDaily(req:any, res:any) {
     }
 }
 
-async function serveDailiesByType(type:DailyType, res:any) {
+async function serveDailiesByType(type:DailyType, res:express.Response) {
   try {
       //TODO: this assumes that key is a date, remove assumption
       // (does alphabetical just work fine?)
@@ -183,7 +182,7 @@ async function serveDailiesByType(type:DailyType, res:any) {
     }
 }
 
-async function serveTutorial(req:any, res:any) {
+async function serveTutorial(req:express.Request, res:express.Response) {
   res.render('pages/main', {url:undefined, tutorial:true})
 }
 
@@ -195,13 +194,13 @@ express()
     .use(express.static('./public'))
     .set('view engine', 'ejs')
     .set('views', './views')
-    .get('/topScore', async (req:any, res:any) => {
+    .get('/topScore', async (req, res) => {
       try {
           if (sql == null) {
               res.send('none')
               return
           }
-          const url = decodeURIComponent(req.query.url)
+          const url = decodeURIComponent(req.query.url as string)
           const version = req.query.version
           if (version != VERSION) {
               res.send('version mismatch')
@@ -221,7 +220,7 @@ express()
           res.send(err.toString())
       }
     })
-    .get('/recent', async (req:any, res:any) => {
+    .get('/recent', async (req, res) => {
       try {
           if (sql == null) {
               res.send('Not connected to a database')
@@ -246,7 +245,7 @@ express()
           res.send(err.toString())
       }
     })
-    .get('/dailies', async (req:any, res:any) => {
+    .get('/dailies', async (req, res) => {
       try {
           if (sql == null) {
               res.send('Not connected to a database')
@@ -259,12 +258,12 @@ express()
           res.send(err.toString())
       }
     })
-    .get('/weeklies', async (req: any, res:any) => {
+    .get('/weeklies', async (req, res) => {
       await serveDailiesByType('weekly', res)
     })
-    .get('/scoreboard', async (req:any, res:any) => {
+    .get('/scoreboard', async (req, res) => {
       try {
-          const url = decodeURIComponent(req._parsedUrl.query)
+          const url = decodeURIComponent((req as any)._parsedUrl.query)
           if (sql == null) {
               res.send('Not connected to a database.')
               return
@@ -309,17 +308,17 @@ express()
     .get('/daily', serveDaily)
     .get('/weekly', serveWeekly)
     .get('/tutorial', serveTutorial)
-    .post('/submit', async (req:any, res:any) => {
+    .post('/submit', async (req, res) => {
         try {
             if (sql == null) {
                 res.send('Not connected to db.')
                 return
             }
-            const url = decodeURIComponent(req.query.url)
+            const url = decodeURIComponent(req.query.url as string)
             const spec = specFromURL(url)
-            const score = req.query.score
-            const username = req.query.username
-            const history = req.query.history
+            const score = parseInt(req.query.score as string)
+            const username = req.query.username as string
+            const history = req.query.history as string
             //TODO: verify custom games, probably use URL here and everywhere in file?
             const [valid, explanation] = await verifyScore(spec, history, score)
             if (valid) {

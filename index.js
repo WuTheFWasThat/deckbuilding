@@ -591,7 +591,7 @@ express()
                 }
                 url = decodeURIComponent(req.query.url);
                 spec = specFromURL(url);
-                score = req.query.score;
+                score = parseInt(req.query.score);
                 username = req.query.username;
                 history_1 = req.query.history;
                 return [4 /*yield*/, verifyScore(spec, history_1, score)];
