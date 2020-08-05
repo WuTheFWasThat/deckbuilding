@@ -2874,7 +2874,7 @@ var hallOfMirrors = { name: 'Hall of Mirrors',
             }
         }],
     triggers: [{
-            text: "After playing a card with a mirror token on it \n        other than with this, remove a mirror token and play it again.",
+            text: "After playing a card with a mirror token on it\n        other than with this, remove a mirror token and play it again.",
             kind: 'afterPlay',
             handles: function (e, state, card) {
                 var played = state.find(e.card);
@@ -3394,6 +3394,10 @@ var ruinedMarket = { name: 'Ruined Market',
     effects: [coinsEffect(1), buyEffect()]
 };
 buyableFree(ruinedMarket, 2);
+var herbs = { name: 'Herbs',
+    effects: [coinsEffect(1), buyEffect()],
+};
+buyableAnd(herbs, 1, { onBuy: [actionsEffect(1)] });
 var spices = { name: 'Spices',
     effects: [coinsEffect(2), buyEffect()],
 };
@@ -3726,7 +3730,7 @@ var egg = { name: 'Egg',
     fixedCost: energy(2),
     relatedCards: [dragon],
     effects: [chargeEffect(), {
-            text: ["If this has three or more charge tokens on it, trash it and \n        create " + a(dragon.name) + " in your hand."],
+            text: ["If this has three or more charge tokens on it, trash it and\n        create " + a(dragon.name) + " in your hand."],
             transform: function (state, card) { return state.find(card).charge >= 3 ?
                 doAll([trash(card), create(dragon, 'hand')]) : noop; }
         }]

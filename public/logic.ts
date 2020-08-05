@@ -447,12 +447,12 @@ export interface Kingdom {
     events: CardSpec[];
 }
 
-export type GameSpec = 
+export type GameSpec =
     { kind: 'test' } |
     { kind: 'pick', cards:CardSpec[], events:CardSpec[] } |
     { kind: 'pickR', cards:SlotSpec[], events:SlotSpec[], seed: string } |
     { kind: 'require', cards:SlotSpec[], events:SlotSpec[], seed: string } |
-    { kind: 'full', seed: string} | 
+    { kind: 'full', seed: string} |
     { kind: 'half', seed: string} |
     { kind: 'mini', seed: string}
 
@@ -1833,7 +1833,7 @@ function pickRandoms(slots:SlotSpec[], source:CardSpec[], seed:string): CardSpec
         }
     }
     return result.concat(randomChoices(
-        source.filter(x => !taken.has(x.name)), 
+        source.filter(x => !taken.has(x.name)),
         randoms, hash(seed)
     ))
 }
@@ -2416,11 +2416,11 @@ const hallOfMirrors:CardSpec = {name: 'Hall of Mirrors',
     fixedCost: {...free, energy:1, coin:5},
     effects: [{
         text: ['Put a mirror token on each card in your hand.'],
-        transform: (state:State, card:Card) => 
+        transform: (state:State, card:Card) =>
             doAll(state.hand.map(c => addToken(c, 'mirror')))
     }],
     triggers: [{
-        text: `After playing a card with a mirror token on it 
+        text: `After playing a card with a mirror token on it
         other than with this, remove a mirror token and play it again.`,
         kind:'afterPlay',
         handles: (e, state, card) => {
@@ -2543,7 +2543,7 @@ const travelingFair:CardSpec = {name:'Traveling Fair',
         kind: 'create',
         handles: (e, state, card) => e.zone == 'discard'
             && state.find(card).charge >= 1,
-        replace: (x, state, card) => 
+        replace: (x, state, card) =>
             ({...x, zone:'hand', effects:x.effects.concat([charge(card, -1)])})
     }]
 }
@@ -2664,7 +2664,7 @@ const duplicate:CardSpec = {name: 'Duplicate',
             const target:Card = state.find(e.card);
             return target.count('duplicate') > 0
         },
-        transform: (e, state, card) => 
+        transform: (e, state, card) =>
             payToDo(removeToken(e.card, 'duplicate'), e.card.buy(card))
     }]
 }
@@ -2678,7 +2678,7 @@ const royalSeal:CardSpec = {name: 'Royal Seal',
         kind: 'create',
         handles: (e, state, card) => e.zone == 'discard'
             && state.find(card).place == 'play',
-        replace: (x, state, card) => 
+        replace: (x, state, card) =>
             ({...x, zone:'hand', effects:x.effects.concat([move(card, 'discard')])})
     }]
 }
@@ -2749,7 +2749,7 @@ const mobilization:CardSpec = {name: 'Mobilization',
         text: `${refresh.name} costs @ less to play for each charge token on this.`,
         kind:'cost',
         handles: x => (x.card.name == refresh.name),
-        replace: (x, state, card) => 
+        replace: (x, state, card) =>
             ({...x, cost:subtractCost(x.cost, {energy:state.find(card).charge})})
     }]
 }
@@ -2944,6 +2944,12 @@ const ruinedMarket:CardSpec = {name: 'Ruined Market',
 }
 buyableFree(ruinedMarket, 2)
 
+const herbs:CardSpec = {name: 'Herbs',
+    effects: [coinsEffect(1), buyEffect()],
+}
+buyableAnd(herbs, 1, {onBuy: [actionsEffect(1)]})
+
+
 const spices:CardSpec = {name: 'Spices',
     effects: [coinsEffect(2), buyEffect()],
 }
@@ -2966,7 +2972,7 @@ const onslaught:CardSpec = {name: 'Onslaught',
 /*
 
     {
-        text: [`Play any number of cards in your hand 
+        text: [`Play any number of cards in your hand
         and discard the rest.`],
         transform: (state, card) => async function(state) {
             const cards:Card[] = state.hand
@@ -3298,7 +3304,7 @@ const egg:CardSpec = {name: 'Egg',
     fixedCost: energy(2),
     relatedCards: [dragon],
     effects: [chargeEffect(), {
-        text: [`If this has three or more charge tokens on it, trash it and 
+        text: [`If this has three or more charge tokens on it, trash it and
         create ${a(dragon.name)} in your hand.`],
         transform: (state, card) => state.find(card).charge >= 3 ?
             doAll([trash(card), create(dragon, 'hand')]) : noop
@@ -3445,7 +3451,7 @@ const ball:CardSpec = {
             applyToTarget(
                 target => target.buy(c),
                 'Choose a card to buy.',
-                state => state.supply.filter(option => 
+                state => state.supply.filter(option =>
                     leq(option.cost('buy', s), e.card.cost('buy', s))
                 )
             )
@@ -3546,8 +3552,8 @@ buyable(flourishing, 2)
 const banquet:CardSpec = {
     name: 'Banquet',
     restrictions: [{
-        test: (c:Card, s:State, k:ActionKind) => 
-            k == 'activate' && 
+        test: (c:Card, s:State, k:ActionKind) =>
+            k == 'activate' &&
             s.hand.some(c => c.count('neglect') > 0)
     }],
     effects: [coinsEffect(3), toPlay(), {
@@ -3768,7 +3774,7 @@ const lostArts:CardSpec = {
                Whenever this reduces a card's cost by one or more @,
                remove that many art tokens.`,
         kind: 'cost',
-        handles: (x, state, card) => (x.actionKind == 'play') 
+        handles: (x, state, card) => (x.actionKind == 'play')
             && nameHasToken(x.card, 'arts', state),
         replace: (x, state, card) => {
             card = state.find(card)
@@ -3857,7 +3863,7 @@ const preparations:CardSpec = {
             instead move it to your discard and gain +1 buy, +$2, and +3 actions.`,
         kind: 'move',
         handles: (p, state, card) => (p.card.id == card.id && p.toZone == 'hand'),
-        replace: p => ({...p, 
+        replace: p => ({...p,
             toZone:'discard',
             effects:p.effects.concat([gainBuys(1), gainCoin(2), gainActions(3)])
         })
