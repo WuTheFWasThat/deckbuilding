@@ -29,7 +29,7 @@ import {
   costPer, incrementCost, costReduceNext,
   countNameTokens, nameHasToken,
   startsWithCharge,
-  useRefresh, costReduce, applyToTarget,
+  playRefresh, costReduce, applyToTarget,
   playTwice, payAction, sortHand, discardFromPlay,
   trashThis, fragileEcho,
   copper, gold, estate, duchy,
@@ -259,7 +259,7 @@ const escalate:CardSpec = {name: 'Escalate',
             text: ['Put a cost token on this for each charge token on it.'],
             transform: (s:State, c:Card) => addToken(c, 'cost', s.find(c).charge)
         },
-        useRefresh()
+        playRefresh()
     ]
 }
 registerEvent(escalate, 'base')
