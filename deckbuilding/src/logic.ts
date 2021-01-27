@@ -1,5 +1,3 @@
-export const VERSION = "1.8"
-
 import {
   copper, estate,
   sets,
@@ -12,6 +10,8 @@ import {
 import {
   throneRoom, duplicate,
 } from './cards/base'
+
+export const VERSION = "1.8"
 
 // ----------------------------- Formatting
 
