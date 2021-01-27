@@ -2,13 +2,13 @@ import {
   CardSpec, Card, choice, asChoice, trash, Cost, addCosts,
   leq, Effect, move, payToDo, free,
   gainPoints, allowNull, tick,
-} from '../logic.js'
+} from '../logic'
 import {
   register, villager, buyable, registerEvent, actionsEffect, buyEffect, pointsEffect, refreshEffect,
   targetedEffect, chargeEffect,
   coin, energy,
   applyToTarget,
-} from './index.js'
+} from './index'
 
 const manor:CardSpec = {
     name: 'Manor',

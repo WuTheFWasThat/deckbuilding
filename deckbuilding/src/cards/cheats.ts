@@ -3,12 +3,12 @@ import {
   CardSpec,
   removeToken,
   doAll,
-} from '../logic.js'
+} from '../logic'
 import {
   actionsEffect, buyEffect, buysEffect, pointsEffect, coinsEffect,
   refreshEffect,
   energy, coin,
-} from './index.js'
+} from './index'
 
 
 export const cheats:CardSpec[] = []

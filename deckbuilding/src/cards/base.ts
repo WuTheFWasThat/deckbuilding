@@ -16,7 +16,7 @@ import {
   setResource, Transform,
   tick, a, num,
   createAndTrack,
-} from '../logic.js'
+} from '../logic'
 import {
   villager, fair,
   buyable, buyableFree,
@@ -34,7 +34,7 @@ import {
   trashThis, fragileEcho,
   copper, gold, estate, duchy,
   dedupBy,
-} from './index.js'
+} from './index'
 
 /*
 const necropolis:CardSpec = {name: 'Necropolis',

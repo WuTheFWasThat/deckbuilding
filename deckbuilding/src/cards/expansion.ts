@@ -8,7 +8,7 @@ import { CardSpec, Card, choice, asChoice, trash, Cost, addCosts, leq, Effect,
   charge, discharge,
   State, payCost, subtractCost, aOrNum,
   allowNull,
-} from '../logic.js'
+} from '../logic'
 import {
   villager, fair, refresh,
   buyable,
@@ -29,7 +29,7 @@ import {
   trashOnLeavePlay, discardFromPlay, trashThis,
   payAction,
   fragileEcho,
-} from './index.js'
+} from './index'
 
 
 // ------------------- Expansion ---------------

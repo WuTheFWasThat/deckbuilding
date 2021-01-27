@@ -4,22 +4,22 @@
 // TODO: starting to see performance hiccups in big games
 // TODO: probably don't want the public move method to allow moves into or out of resolving.
 
-import { Cost, Shadow, State, Card, CardSpec, PlaceName } from './logic.js'
-import { GameSpec, SlotSpec } from './logic.js'
-import { Trigger, Replacer, Ability, VariableCost, Token } from './logic.js'
-import { ID } from './logic.js'
-import { renderCost, renderEnergy } from './logic.js'
-import { emptyState } from './logic.js'
-import { LogType, logTypes } from './logic.js'
-import { sets } from './cards/index.js'
-import { ExpansionName } from './logic.js'
-import { Option, OptionRender, HotkeyHint } from './logic.js'
-import { UI, SetState, Undo, Victory, InvalidHistory, ReplayEnded } from './logic.js'
-import { playGame, initialState, verifyScore} from './logic.js'
-import { Replay, coerceReplayVersion, parseReplay, MalformedReplay } from './logic.js'
-import { allCards, allEvents, randomPlaceholder } from './logic.js'
-import { VERSION, DEFAULT_VP_GOAL } from './logic.js'
-import { MalformedSpec, getTutorialSpec, specToURL, specFromURL } from './logic.js'
+import { Cost, Shadow, State, Card, CardSpec, PlaceName } from './logic'
+import { GameSpec, SlotSpec } from './logic'
+import { Trigger, Replacer, Ability, VariableCost, Token } from './logic'
+import { ID } from './logic'
+import { renderCost, renderEnergy } from './logic'
+import { emptyState } from './logic'
+import { LogType, logTypes } from './logic'
+import { sets } from './cards/index'
+import { ExpansionName } from './logic'
+import { Option, OptionRender, HotkeyHint } from './logic'
+import { UI, SetState, Undo, Victory, InvalidHistory, ReplayEnded } from './logic'
+import { playGame, initialState, verifyScore} from './logic'
+import { Replay, coerceReplayVersion, parseReplay, MalformedReplay } from './logic'
+import { allCards, allEvents, randomPlaceholder } from './logic'
+import { VERSION, DEFAULT_VP_GOAL } from './logic'
+import { MalformedSpec, getTutorialSpec, specToURL, specFromURL } from './logic'
 
 // --------------------- Hotkeys
 

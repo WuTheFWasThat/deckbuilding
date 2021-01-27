@@ -3,15 +3,15 @@ export const VERSION = "1.8"
 import {
   copper, estate,
   sets,
-} from './cards/index.js'
+} from './cards/index'
 
 import {
   cheats
-} from './cards/cheats.js'
+} from './cards/cheats'
 
 import {
   throneRoom, duplicate,
-} from './cards/base.js'
+} from './cards/base'
 
 // ----------------------------- Formatting
 

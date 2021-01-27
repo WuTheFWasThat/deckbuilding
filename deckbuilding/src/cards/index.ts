@@ -20,13 +20,13 @@ import {
   TypedTrigger, TypedReplacer,
   lowercaseFirst,
   ActionKind, BuyEvent, AfterBuyEvent, AfterPlayEvent
-} from '../logic.js'
+} from '../logic'
 
-import './base.js'
-import './expansion.js'
-import './absurd.js'
-import './cheats.js'
-import './test.js'
+import './base'
+import './expansion'
+import './absurd'
+import './cheats'
+import './test'
 
 type SetSpec = {
     'cards': CardSpec[],
