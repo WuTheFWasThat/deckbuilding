@@ -302,6 +302,63 @@ var combiner = {
         }]
 };
 register(combiner, 'absurd');
+function replaceSpecName(x, name) {
+    if (x === void 0) { x = xSpec; }
+    return {
+        name: "" + name,
+        buyCost: x.buyCost,
+        fixedCost: x.fixedCost,
+        variableCosts: x.variableCosts,
+        effects: x.effects,
+        triggers: x.triggers,
+        replacers: x.replacers,
+        staticTriggers: x.staticTriggers,
+        staticReplacers: x.staticReplacers,
+    };
+}
+var Agnosia = 'Agnosia';
+var agnosia = {
+    name: Agnosia,
+    buyCost: coin(1),
+    effects: [{
+            text: [
+                "Choose 2 cards from your hand, swap their names",
+                "Put this in play",
+            ],
+            transform: function () { return function (state) {
+                return __awaiter(this, void 0, void 0, function () {
+                    var targets;
+                    var _a;
+                    return __generator(this, function (_b) {
+                        switch (_b.label) {
+                            case 0: return [4 /*yield*/, multichoice(state, 'Choose two cards to combine.', state.hand.map(asChoice), 2, 2)];
+                            case 1:
+                                _a = __read.apply(void 0, [_b.sent(), 2]), state = _a[0], targets = _a[1];
+                                if (!(targets.length == 2)) return [3 /*break*/, 5];
+                                return [4 /*yield*/, trash(targets[0])(state)];
+                            case 2:
+                                state = _b.sent();
+                                return [4 /*yield*/, trash(targets[1])(state)];
+                            case 3:
+                                state = _b.sent();
+                                return [4 /*yield*/, create(mergeSpecs(targets[0].spec, targets[1].spec), 'hand')(state)];
+                            case 4:
+                                state = _b.sent();
+                                _b.label = 5;
+                            case 5: return [2 /*return*/, state];
+                        }
+                    });
+                });
+            }; }
+        }],
+    triggers: [{
+            text: "Whenever you play " + a(Agnosia) + ", +$1.",
+            kind: 'play',
+            handles: function (e) { return e.card.name == agnosia.name; },
+            transform: function (e, state, card) { return gainCoins(1, card); }
+        }]
+};
+register(agnosia, 'absurd');
 var merge = {
     name: 'Merge',
     fixedCost: energy(1),

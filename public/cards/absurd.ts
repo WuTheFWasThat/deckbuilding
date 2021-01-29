@@ -1,11 +1,12 @@
 import {
   CardSpec, Card, choice, asChoice, trash, Cost, addCosts,
   State, Token,
+  a,
   leq, Effect, move, create,
   payToDo, free,
   charge, discharge,
   addToken, removeToken,
-  gainActions,
+  gainActions, gainCoins,
   gainResource,
   createAndTrack, doAll, moveMany, multichoice,
   chooseNatural,
@@ -237,6 +238,52 @@ const combiner:CardSpec = {
     }]
 }
 register(combiner, 'absurd')
+
+function replaceSpecName(x:CardSpec=xSpec, name: string): CardSpec {
+    return {
+        name: `${name}`,
+        buyCost: x.buyCost,
+        fixedCost: x.fixedCost,
+        variableCosts: x.variableCosts,
+        effects: x.effects,
+        triggers: x.triggers,
+        replacers: x.replacers,
+        staticTriggers: x.staticTriggers,
+        staticReplacers: x.staticReplacers,
+    }
+}
+const Agnosia = 'Agnosia'
+const agnosia:CardSpec = {
+    name: Agnosia,
+    buyCost: coin(1),
+    effects: [{
+        text: [
+            `Choose 2 cards from your hand, swap their names`,
+            `Put this in play`,
+        ],
+        transform: () => async function(state) {
+            let targets:Card[]; [state, targets] = await multichoice(state,
+                'Choose two cards to combine.',
+                state.hand.map(asChoice),
+                2, 2
+            )
+            if (targets.length == 2) {
+                state = await trash(targets[0])(state)
+                state = await trash(targets[1])(state)
+                state = await create(mergeSpecs(targets[0].spec, targets[1].spec), 'hand')(state)
+            }
+            return state
+        }
+    }],
+    triggers: [{
+        text: `Whenever you play ${a(Agnosia)}, +$1.`,
+        kind: 'play',
+        handles: e => e.card.name == agnosia.name,
+        transform: (e, state, card) => gainCoins(1, card)
+    }]
+}
+register(agnosia, 'absurd')
+
 
 const merge:CardSpec = {
     name: 'Merge',
