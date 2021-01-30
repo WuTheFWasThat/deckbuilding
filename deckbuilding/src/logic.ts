@@ -1,5 +1,6 @@
 export const VERSION = "1.8"
 
+export const DEFAULT_VP_GOAL = 40
 // ----------------------------- Formatting
 
 export function renderCost(cost:Partial<Cost>, full:boolean=false): string {
@@ -1234,7 +1235,6 @@ function gainEnergy(n:number, source:Source=unk): Transform {
     return gainResource('energy', n, source)
 }
 
-export const DEFAULT_VP_GOAL = 40
 function gainPoints(n:number, source:Source=unk): Transform {
     return async function(state) {
         state = await gainResource('points', n, source)(state)
