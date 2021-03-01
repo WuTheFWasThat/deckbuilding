@@ -1,9 +1,9 @@
 // register cards
-import * as absurd from './absurd.js'
-import * as base from './base.js'
-import * as expansion from './expansion.js'
-import * as test from './test.js'
-import { sets, CardSpec, ExpansionName } from '../logic.js'
+import * as absurd from './absurd'
+import * as base from './base'
+import * as expansion from './expansion'
+import * as test from './test'
+import { sets, CardSpec, ExpansionName } from '../logic'
 
 function registerAll(cards:CardSpec[], events:CardSpec[], expansion:ExpansionName): void {
     sets[expansion].cards = cards

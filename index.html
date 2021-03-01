@@ -1,13 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/main.js"></script>
-  </body>
+<html>
+<head>
+    <!--link rel="modulepreload" href="/main.ts"-->
+    <!--link rel="modulepreload" href="/logic.ts"-->
+    <!--script type="text/javascript" src="jquery.js"></script-->
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <title>Engine</title>
+</head>
+
+<body>
+   <script type="module" src="/public/main.ts"></script>
+
+	<div class='homeLine'> Learn how to play with <a href='/tutorial'>the tutorial</a>.</div>
+	<div class='homeLine'> Then try <a href='/campaign.html'>the campaign</a>. </div>
+	<div class='homeLine'> Discuss on <a href='https://discord.gg/zZCuhg7'>Discord</a>.</div>
+	<div class='homeLine'>
+		<div>
+			Daily challenges are released every day at 9pm Pacific.
+		</div>
+		<div>
+			The most recent one is <a href='/daily'>here</a>.
+			You can browse past results <a href='/dailies'>here</a>.
+		</div>
+	</div>
+	<div class='homeLine'>
+		You can play a <a href='/play'>a random game</a>,
+		or make a custom kingdom using the <a href='/picker.html'>kingdom picker</a>.
+	</div>
+
+</body>
 </html>
